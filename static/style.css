@@ -1,0 +1,46 @@
+body{
+    background-image: url("background.jpg");
+    background-size: 200%;
+    background-repeat: no-repeat;
+}
+#container{
+    display: grid;
+    width: 1000px;
+    height: 800px;
+    margin: 0 auto;
+    grid-template-areas:
+      'left right'
+      'desc right';
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+/* styling voor de button */
+#start_button{
+    font-size: 30px;
+}
+
+#vote_container{
+    grid-area: left;
+    padding: 20px;
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+h1.heading{
+    font-size: 55px;
+}
+
+#desc_container{
+    grid-area: 'desc';
+    background-color: pink;  
+    columns: 1/2;
+}
+
+#party_container{
+    grid-area: right;
+    background-color: lime;
+    width: 300px;
+}
