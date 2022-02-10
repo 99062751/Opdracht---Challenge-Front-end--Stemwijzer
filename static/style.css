@@ -1,9 +1,9 @@
-body{
+body.index_body{
     background-image: url("background.jpg");
     background-size: 200%;
     background-repeat: no-repeat;
 }
-#container{
+#container_index{
     display: grid;
     width: 1000px;
     height: 800px;
@@ -11,9 +11,6 @@ body{
     grid-template-areas:
       'left right'
       'desc right';
-    grid-gap: 10px;
-    background-color: #2196F3;
-    padding: 10px;
 }
 
 /* styling voor de button */
@@ -23,8 +20,7 @@ body{
 
 #vote_container{
     grid-area: left;
-    padding: 20px;
-    width: 50%;
+    padding: 50px;
     background-color: white;
     border-radius: 10px;
 }
@@ -35,12 +31,13 @@ h1.heading{
 
 #desc_container{
     grid-area: 'desc';
-    background-color: pink;  
     columns: 1/2;
+    width: 98%;
 }
 
 #party_container{
+    height: 98%;
     grid-area: right;
-    background-color: lime;
     width: 300px;
 }
+

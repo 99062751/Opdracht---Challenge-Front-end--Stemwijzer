@@ -5,31 +5,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Stemwijzer</title>
         <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
-    <body>
+    <body class="index_body">
         <nav>
             <a href=""></a>
             <a href=""></a>
             <a href=""></a>
             <a href=""></a>
         </nav>
-        <div id="container">
+        <div id="container_index" class="w3-padding-large">
             <div id="vote_container">
-                <h1 class="heading">StemWijzer</h1>
+                <h1 class="heading"><span class="heading w3-text-blue">Stem</span>Wijzer</h1>
                 <h1>Tweede kamer verkiezingen 2021</h1>
-                <p>Test je politieke voorkeur aan de hand van 30 stellingen.</p>
-                <button id="start_button">Start</button>
+                <p class="w3-large">Test je politieke voorkeur aan de hand van 30 stellingen.</p>
+                <a href="stemwijzer.html" class="w3-button w3-blue w3-xxlarge w3-round-xlarge w3-padding">Start</a>
             </div>
 
-            <div id="desc_container">
-               <span>Bij stemwijzer nemen we je privacy serieus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consectetur veniam, doloremque dolorem impedit vel cumque temporibus earum error laborum excepturi quasi, unde qui sint iste dignissimos ea nulla praesentium.</span>
+            <div id="desc_container" class="w3-black w3-container w3-padding-large w3-margin-left">
+               <p class="w3-small w3-opacity">Bij stemwijzer nemen we je privacy serieus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum ullam quam iure qui eos excepturi accusantium perspiciatis voluptate hic autem ad libero eaque dolorem, quia modi aliquam vel et error. Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio consectetur veniam, doloremque dolorem impedit vel cumque temporibus earum error laborum excepturi quasi, unde qui sint iste dignissimos ea nulla praesentium.</p>
+                <p class="w3-small w3-opacity">Lees hier meer over onze privacy voorwaarden</p>
+
+                <a class="w3-padding w3-button w3-round-large w3-white">Privacystatement</a>
+                <p class="w3-small w3-opacity">Alle rechten voorbehouden blabla bla ©stemwijzer</p>
             </div>
             
-            <div id="party_container">
-                <p>test</p>
+            <div id="party_container" class="w3-black w3-container w3-margin-top w3-round-xlarge">
+                <img src="static/parties.png" alt="parties" style="">
             </div>
         </div>
         <script src="stemwijzer.js"></script>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
         <!-- <script src="http://stemwijzer.dvc-icta.nl/data.js"></script> -->
     </body>
 </html>
