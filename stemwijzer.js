@@ -3,7 +3,7 @@ var desc_container= document.getElementById("desc_container");
 var party_container= document.getElementById("party_container");
 var buttons_container= document.getElementById("buttons_container");
 var statement_container= document.getElementById("statement_container");
-var start_link= document.createElement("a");
+// var start_link= document.createElement("a");
 var agree_button= document.createElement("button");
 var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
@@ -12,25 +12,25 @@ var statement_count= 0;
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
-var statements= ["fh3iuf43htio4u2h", "3iuhft43iuhti4511111hy90[11", "314909214832095802935"];
+var statements= subjects;
 var inPAGE= true;
+alert(JSON.stringify(statements[0]["title"]));
 
 // gedoe setup
-start_link.setAttribute('class', "w3-button w3-blue w3-xxlarge w3-round-xlarge w3-padding");
-start_link.setAttribute('id', "start_link");
-start_link.setAttribute('href', "stemwijzer.html");
-start_link.innerText= "Start";
-vote_container.appendChild(start_link);
-start_link.onclick= function(){clicked(start_link)};
+// start_link.setAttribute('class', "w3-button w3-blue w3-xxlarge w3-round-xlarge w3-padding");
+// start_link.setAttribute('id', "start_link");
+// start_link.setAttribute('href', "stemwijzer.html");
+// start_link.innerText= "Start";
+// vote_container.appendChild(start_link);
+// start_link.onclick= function(){clicked(start_link)};
 
-statement_header.setAttribute("class", 'w3-left w3-text-blue');
-statement_header.innerText= statement_headers[statement_count];
+statement_header.setAttribute("class", 'w3-text-blue');
+statement_header.innerText= statements[statement_count]["title"] + "\n";
 statement_container.appendChild(statement_header);
 
-statement.setAttribute("class", 'w3-text-black');
-statement.innerText= statements[statement_count];
+statement.setAttribute("class", 'w3-left w3-text-black');
+statement.innerText= statements[statement_count]["statement"];
 statement_container.appendChild(statement);
-
 
 
 
@@ -57,24 +57,28 @@ disagree_button.onclick= function(){clicked(disagree_button)};
 none_button.onclick= function(){clicked(none_button)};
 
 function clicked(clicked_element){
-    if(clicked_element == agree_button){
-        choice["agreed"]++; alert(choice["agreed"]);
-    }else if(clicked_element == disagree_button){
-        choice["disagreed"]++; alert(choice["disagreed"]);
-    }else if(clicked_element == start_link){
-        console.log(inPAGE);
-        if(inPAGE == true){
-            inPAGE = !inPAGE;
-            start_link.setAttribute("class", 'w3-none');
+    if(statement_count =){
+        if(clicked_element == agree_button){
+            choice["agreed"]++; alert(choice["agreed"]);
+        }else if(clicked_element == disagree_button){
+            choice["disagreed"]++; alert(choice["disagreed"]);
+        }else if(clicked_element == start_link){
+            console.log(inPAGE);
+            if(inPAGE == true){
+                inPAGE = !inPAGE;
+                document.getElementById("start_link").style.backgroundColor= "green !important";
+            }else{
+                inPAGE= true;
+                start_link.style.display= "inline-block";
+            }
         }else{
-            inPAGE= true;
+            choice["none"]++; alert(choice["none"]);
         }
-    }else{
-        choice["none"]++; alert(choice["none"]);
+        statement_count++;
+        statement_header.innerText= statements[statement_count]["title"];
+        statement.innerText= statements[statement_count]["statement"];
     }
-    statement_count++;
-    statement_header.innerText= statement_headers[statement_count];
-    statement.innerText= statements[statement_count];
 }
+
 
 
