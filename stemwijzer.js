@@ -14,7 +14,6 @@ var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
 var statements= subjects;
 var inPAGE= true;
-alert(JSON.stringify(statements[0]["title"]));
 
 // gedoe setup
 // start_link.setAttribute('class', "w3-button w3-blue w3-xxlarge w3-round-xlarge w3-padding");
@@ -57,11 +56,11 @@ disagree_button.onclick= function(){clicked(disagree_button)};
 none_button.onclick= function(){clicked(none_button)};
 
 function clicked(clicked_element){
-    if(statement_count =){
+    if(statement_count != statements.length){
         if(clicked_element == agree_button){
-            choice["agreed"]++; alert(choice["agreed"]);
+            choice["agreed"]++; 
         }else if(clicked_element == disagree_button){
-            choice["disagreed"]++; alert(choice["disagreed"]);
+            choice["disagreed"]++;
         }else if(clicked_element == start_link){
             console.log(inPAGE);
             if(inPAGE == true){
@@ -72,11 +71,28 @@ function clicked(clicked_element){
                 start_link.style.display= "inline-block";
             }
         }else{
-            choice["none"]++; alert(choice["none"]);
+            choice["none"]++;
         }
         statement_count++;
         statement_header.innerText= statements[statement_count]["title"];
         statement.innerText= statements[statement_count]["statement"];
+    }else{
+        alert("ok!");
+        statement_header.innerText= "Zijn er onderwerpen die u belangrijk vind?";
+        statement.innerText= "Aangevinkte stellingen tellen extra mee bij het resultaat.";
+
+        for (var q = 0; q < statements.length; q++) {
+            var checkbox= document.createElement("select");
+            checkbox.setAttribute("id", 'checkbox' + q);
+            statement_container.appendChild(checkbox);
+            var checksubject= + statements[q]["title"];
+            statement_container.appendChild(checksubject);
+        }
+
+        var continue_button= document.createElement("button");
+        buttonStyling(continue_button, "blue");
+        continue_button.innerText= "Ga verder";
+        statement_container.appendChild(continue_button);
     }
 }
 
