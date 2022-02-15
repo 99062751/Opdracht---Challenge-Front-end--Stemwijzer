@@ -9,19 +9,27 @@
     </head>
     <body class="w3-white">
         <nav class="w3-bar w3-top w3-container">
-            <a href="index.html" class="w3-left w3-button w3-xxlarge w3-text-white w3-round-xxlarge w3-grey"><-</a>
-            <span class="w3-xlarge w3-bar-item"><span class="heading w3-text-blue">Stem</span>Wijzer1</span>
+            <div class="w3-light-grey">
+                <div id="progressbar" class="w3-blue" style="height:15px;"></div>
+            </div>
+            <div id="previous_questionDiv" class="w3-margin-top">
+                    <p id="question_counter" class="w3-panel w3-right w3-border w3-round-xxlarge w3-xlarge"></p>
+                </div>                
+            </div>
         </nav>
         
-        <div class="w3-container w3-center">
-            <div id="vote_container">
+        <div class="w3-container w3-display-middle">
+            <div id="vote_container" class="w3-center">
             </div>
-            <div id="statement_container" class="w3-container w3-padding-large w3-display-middle"></div>
-            <div id="buttons_container" class="w3-center w3-display-bottommiddle w3-margin"></div>
+            <div id="statement_container" class="w3-center w3-container w3-padding-large">
+            </div>
+            <div id="check_subject" class="w3-container">
+            </div>
         </div>
+        <div id="buttons_container" class="w3-left w3-display-bottommiddle w3-margin"></div>
         <script src="data.js"></script>
         <script src="stemwijzer.js"></script>
         <!-- <script src="https://www.w3schools.com/lib/w3.js"></script> -->
-        
+
     </body>
 </html>
