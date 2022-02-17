@@ -3,17 +3,15 @@ var desc_container= document.getElementById("desc_container");
 var party_container= document.getElementById("party_container");
 var buttons_container= document.getElementById("buttons_container");
 var statement_container= document.getElementById("statement_container");
-// var start_link= document.createElement("a");
 var agree_button= document.createElement("button");
 var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
-var choice= {"agreed": 0, "disagreed": 0, "none": 0};
+var skip_button= document.createElement("button");
 var statement_count= 0; 
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
 var statements= subjects;
-var inPAGE= true;
 var progressbar= document.getElementById("progressbar");
 var progress_percentage= 0;
 progressbar.style.width= progress_percentage + "%";
@@ -26,16 +24,16 @@ previous_button.innerHTML= '<svg xmlns="http://www.w3.org/2000/svg" style="width
 previous_questionDiv.appendChild(previous_button);
 previous_button.onclick= function(){clicked("GoPrevious");};
 var question_counter= document.getElementById("question_counter");
+var check_results= [];
 
-// gedoe setup
-// start_link.setAttribute('class', "w3-button w3-blue w3-xxlarge w3-round-xlarge w3-padding");
-// start_link.setAttribute('id', "start_link");
-// start_link.setAttribute('href', "stemwijzer.html");
-// start_link.innerText= "Start";
-// vote_container.appendChild(start_link);
-// start_link.onclick= function(){clicked(start_link)};
-question_counter.innerHTML= `${(statement_count)}/30`;  
-console.log(`${(statement_count + 1)}/30`);
+var choizes= [];
+
+
+function selected(selected_element){
+    selected_element.style.backgroundColor = "blue";
+}
+
+question_counter.innerHTML= `${(statement_count + 1)}/30`;
 statement_header.setAttribute("class", 'w3-text-blue');
 statement_header.innerText= statements[statement_count]["title"] + "\n";
 statement_container.appendChild(statement_header);
@@ -44,88 +42,80 @@ statement.setAttribute("class", 'w3-left w3-text-black');
 statement.innerText= statements[statement_count]["statement"];
 statement_container.appendChild(statement);
 
-
 function clearButtons(){
     agree_button.style.display= "none";
     disagree_button.style.display= "none";
     none_button.style.display= "none";
-    
+    skip_button.style.display= "none";
 }
 function showButtons(){
     agree_button.style.display= "inline-block";
     disagree_button.style.display= "inline-block";
     none_button.style.display= "inline-block";
+    skip_button.style.display= "inline-block";
 }
-
 function hide(element){
     element.style.display= "none";
 }
-
 function buttonStyling(element, color){
     element.setAttribute('class', `w3-button w3-${color} w3-xlarge w3-margin-right w3-round-xlarge w3-padding w3-text-color-white`);
     buttons_container.appendChild(element);
 }
 
-for (var i = 0; i < 3; i++) {
+for (var i = 0; i < 4; i++) {
     if(i == 0){
         agree_button.innerText= "Eens";
+        agree_button.setAttribute("id", "agree_button");
         buttonStyling(agree_button ,"green");
         var selected_argee= true;
     }else if(i == 1){
         disagree_button.innerText= "Oneens";
+        disagree_button.setAttribute("id", "disagree_button");
         buttonStyling(disagree_button ,"red");
         var selected_disargee= true;
     }else if(i == 2){
         none_button.innerText= "~ Geen van beide";
+        none_button.setAttribute("id", "none_button");
         buttonStyling(none_button ,"gray");
+        var selected_none= true;
+    }else if(i == 3){
+        skip_button.innerText= "Overslaan";
+        buttonStyling(skip_button ,"white");
         var selected_none= true;
     }
 }
-agree_button.onclick= function(){clicked(agree_button)};
-disagree_button.onclick= function(){clicked(disagree_button)};
-none_button.onclick= function(){clicked(none_button)};
+agree_button.onclick= function(){choizes[statement_count] = "agreed"; clicked(agree_button);};
+disagree_button.onclick= function(){choizes[statement_count] = "disagreed"; clicked(disagree_button);};
+none_button.onclick= function(){choizes[statement_count] = "none"; clicked(none_button);};
+skip_button.onclick= function(){clicked(skip_button);};
+
 
 function clicked(clicked_element){
     if(statement_count != (statements.length - 1) && clicked_element != "GoPrevious"){
-        progress_percentage= (progress_percentage + 3.48);
-        progressbar.style.width= progress_percentage + "%";
-        question_counter.innerHTML= `${(statement_count++)}/30`; 
-        console.log(`${(statement_count + 1)}/30`); 
-        
-        if(clicked_element == agree_button){
-            choice["agreed"]++; 
-        }else if(clicked_element == disagree_button){
-            choice["disagreed"]++;
-        // }else if(clicked_element == start_link){
-        //     console.log(inPAGE);
-        //     if(inPAGE == true){
-        //         inPAGE = !inPAGE;
-        //         document.getElementById("start_link").style.backgroundColor= "green !important";
-        //     }else{
-        //         inPAGE= true;
-        //         start_link.style.display= "inline-block";
-        //     }
-        }else{
-            choice["none"]++;
-        }
         statement_count++;
+        setButtonColors();
+        if(choizes[statement_count] != null){
+            changeButtonColor(choizes[statement_count]);
+        }
         statement_header.innerText= statements[statement_count]["title"];
         statement.innerText= statements[statement_count]["statement"];
+        progress_percentage= (progress_percentage + 3.48);
+        progressbar.style.width= progress_percentage + "%";
+        question_counter.innerHTML= `${(statement_count + 1)}/30`;
     }else if(clicked_element == "GoPrevious"){
         hide(subjectsDiv);
         if(statement_count <= 0){
             previous_button.setAttribute("href", 'index.html');
         }else{
             statement_count--;
+            setButtonColors();
+            changeButtonColor(choizes[statement_count]);
             question_counter.innerHTML= `${(statement_count + 1)}/30`;
-            console.log(`${(statement_count--)}/30`);  
             progress_percentage= (progress_percentage - 3.48);
             progressbar.style.width= progress_percentage + "%";
             statement_header.innerText= statements[statement_count]["title"];
             statement.innerText= statements[statement_count]["statement"];
         }
-    }else if(statement_count == 16){
-        
     }else{
         subjectsDiv.style.display= "block";
         clearButtons();
@@ -148,7 +138,48 @@ function clicked(clicked_element){
         buttonStyling(continue_button, "blue");
         continue_button.innerText= "Ga verder";
         statement_container.appendChild(continue_button);
-        continue_button.onclick= function(){showResult(weights);}; 
+        continue_button.onclick= function(){showResult();}; 
+    }
+
+    
+}
+
+function changeButtonColor(givenAnswer){
+    if(givenAnswer == "agreed"){
+        document.getElementById("agree_button").classList.add("blue");
+        document.getElementById("agree_button").classList.remove("w3-green");
+    } else if(givenAnswer == "disagreed"){
+        document.getElementById("disagree_button").classList.add("blue");
+        document.getElementById("disagree_button").classList.remove("w3-red");
+    }else if(givenAnswer == "none"){
+        document.getElementById("none_button").classList.add("blue");
+        document.getElementById("none_button").classList.remove("w3-grey");
     }
 }
 
+function setButtonColors(){
+    agree_button.classList.add("w3-green");
+    agree_button.classList.remove("blue");
+
+    disagree_button.classList.add("w3-red");
+    disagree_button.classList.remove("blue");
+
+    none_button.classList.add("w3-grey");
+    none_button.classList.remove("blue");
+}
+
+function showResult(){
+    for (var t = 0; t < statements.length; t++) {
+        check_results.push(document.getElementById(`checkbox${t}`).checked);
+        alert(check_results);
+
+        // loop bouwen choizes kijken of gegeven antwoord 
+        //overeenkomt met party opinion binnen if statement 
+        //ook kijken of het antwoord van die vraag of die aangevinkt was
+        // als dat geval is + 1 en anders +2
+
+        // if(check_results == true){
+
+        // }
+    }
+}

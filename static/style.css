@@ -44,3 +44,7 @@ h1.heading{
 #check_subject{
     background-color: whitesmoke;
 }
+
+.blue{
+    background-color: blue !important;
+}
