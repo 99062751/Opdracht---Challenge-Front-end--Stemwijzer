@@ -12,6 +12,9 @@ var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
 var statements= subjects;
+var continue_button= document.createElement("button");
+var partys= parties;
+ 
 var progressbar= document.getElementById("progressbar");
 var progress_percentage= 0;
 progressbar.style.width= progress_percentage + "%";
@@ -25,9 +28,7 @@ previous_questionDiv.appendChild(previous_button);
 previous_button.onclick= function(){clicked("GoPrevious");};
 var question_counter= document.getElementById("question_counter");
 var check_results= [];
-
 var choizes= [];
-
 
 function selected(selected_element){
     selected_element.style.backgroundColor = "blue";
@@ -134,16 +135,12 @@ function clicked(clicked_element){
             subjectsDiv.appendChild(statement_title);
         }
 
-        var continue_button= document.createElement("button");
         buttonStyling(continue_button, "blue");
         continue_button.innerText= "Ga verder";
         statement_container.appendChild(continue_button);
-        continue_button.onclick= function(){showResult();}; 
+        continue_button.onclick= function(){selectParties();}; 
     }
-
-    
 }
-
 function changeButtonColor(givenAnswer){
     if(givenAnswer == "agreed"){
         document.getElementById("agree_button").classList.add("blue");
@@ -172,7 +169,19 @@ function showResult(){
     for (var t = 0; t < statements.length; t++) {
         check_results.push(document.getElementById(`checkbox${t}`).checked);
         alert(check_results);
-
+        if(check_results[t] == true){
+            alert("alert");
+            if(choizes[t] == "agreed"){
+                alert("swsw");
+                choizes.push("agreed");
+            }else if(choizes[t] == "disargeed"){
+                alert("213141");
+                choizes.push("disagreed");
+            }else if(choizes[t] == "none"){
+                alert("333");
+                choizes.push("none");
+            }
+        }
         // loop bouwen choizes kijken of gegeven antwoord 
         //overeenkomt met party opinion binnen if statement 
         //ook kijken of het antwoord van die vraag of die aangevinkt was
@@ -182,4 +191,19 @@ function showResult(){
 
         // }
     }
+}
+
+function selectParties(){
+    statement_header.innerText= "Partijen selecteren";
+    statement.innerText= "Kies welke partijen u wilt selecteren voor het advies.";
+    var partyDiv= document.createElement("div");
+    partyDiv.setAttribute("class", 'partyDiv')
+    statement_container.appendChild(partyDiv);
+    for (var c = 0; c < parties.length; c++) {
+        var party= document.createElement("span");
+        party.innerHTML= partys[c]["name"] + "<br>";
+        partyDiv.appendChild(party);
+    }
+    hide(subjectsDiv);
+    hide(continue_button);
 }

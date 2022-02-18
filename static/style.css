@@ -48,3 +48,9 @@ h1.heading{
 .blue{
     background-color: blue !important;
 }
+
+.partyDiv{
+    background-color: whitesmoke;
+    text-align: left;
+    padding: 50px;
+}
