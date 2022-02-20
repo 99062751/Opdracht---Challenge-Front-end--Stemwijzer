@@ -7,6 +7,7 @@ var agree_button= document.createElement("button");
 var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
 var skip_button= document.createElement("button");
+var partyDiv2;
 var statement_count= 0; 
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
@@ -14,7 +15,7 @@ var statement= document.createElement("h2");
 var statements= subjects;
 var continue_button= document.createElement("button");
 var partys= parties;
- 
+var partyDiv; 
 var progressbar= document.getElementById("progressbar");
 var progress_percentage= 0;
 progressbar.style.width= progress_percentage + "%";
@@ -58,6 +59,10 @@ function showButtons(){
 function hide(element){
     element.style.display= "none";
 }
+function show(element2){
+    element2.style.display= "block";
+}
+
 function buttonStyling(element, color){
     element.setAttribute('class', `w3-button w3-${color} w3-xlarge w3-margin-right w3-round-xlarge w3-padding w3-text-color-white`);
     buttons_container.appendChild(element);
@@ -85,8 +90,8 @@ for (var i = 0; i < 4; i++) {
         var selected_none= true;
     }
 }
-agree_button.onclick= function(){choizes[statement_count] = "agreed"; clicked(agree_button);};
-disagree_button.onclick= function(){choizes[statement_count] = "disagreed"; clicked(disagree_button);};
+agree_button.onclick= function(){choizes[statement_count] = "pro"; clicked(agree_button);};
+disagree_button.onclick= function(){choizes[statement_count] = "contra"; clicked(disagree_button);};
 none_button.onclick= function(){choizes[statement_count] = "none"; clicked(none_button);};
 skip_button.onclick= function(){clicked(skip_button);};
 
@@ -142,10 +147,10 @@ function clicked(clicked_element){
     }
 }
 function changeButtonColor(givenAnswer){
-    if(givenAnswer == "agreed"){
+    if(givenAnswer == "pro"){
         document.getElementById("agree_button").classList.add("blue");
         document.getElementById("agree_button").classList.remove("w3-green");
-    } else if(givenAnswer == "disagreed"){
+    } else if(givenAnswer == "contra"){
         document.getElementById("disagree_button").classList.add("blue");
         document.getElementById("disagree_button").classList.remove("w3-red");
     }else if(givenAnswer == "none"){
@@ -171,12 +176,12 @@ function showResult(){
         alert(check_results);
         if(check_results[t] == true){
             alert("alert");
-            if(choizes[t] == "agreed"){
+            if(choizes[t] == "pro"){
                 alert("swsw");
-                choizes.push("agreed");
+                choizes.push("pro");
             }else if(choizes[t] == "disargeed"){
                 alert("213141");
-                choizes.push("disagreed");
+                choizes.push("contra");
             }else if(choizes[t] == "none"){
                 alert("333");
                 choizes.push("none");
@@ -194,16 +199,55 @@ function showResult(){
 }
 
 function selectParties(){
+    hide(subjectsDiv);
+    hide(continue_button);
     statement_header.innerText= "Partijen selecteren";
-    statement.innerText= "Kies welke partijen u wilt selecteren voor het advies.";
-    var partyDiv= document.createElement("div");
+    statement.innerText= "Alle partijen worden nu gebruikt.";
+    partyDiv= document.createElement("div");
     partyDiv.setAttribute("class", 'partyDiv')
     statement_container.appendChild(partyDiv);
+    var filter= document.createElement("input");
+    filter.type = "checkbox";
+    partyDiv.appendChild(filter);
+    filter.onclick= function(){hide(partyDiv); filterNames();}; 
     for (var c = 0; c < parties.length; c++) {
         var party= document.createElement("span");
         party.innerHTML= partys[c]["name"] + "<br>";
         partyDiv.appendChild(party);
     }
-    hide(subjectsDiv);
-    hide(continue_button);
+    
+}
+
+function filterNames(){
+    alert("Dqwfw");
+    partyDiv2= document.createElement("div");
+    partyDiv2.setAttribute("class", 'partyDiv2');
+    partyDiv2.style.display= "block";
+    statement_container.appendChild(partyDiv2);
+    var filter2= document.createElement("input");
+    filter2.type = "checkbox";
+    partyDiv2.appendChild(filter2);
+    for (var h = 0; h < partys.length; h++) {
+        party2= document.createElement("span");
+        if(partys[h]["secular"] == true){
+            party2.innerHTML= partys[h]["name"] + "<br>";
+            partyDiv2.appendChild(party2)
+        }else{
+
+        }
+    }
+    filter2.onclick= function(){selectParties; hide(partyDiv2); show(partyDiv);}; 
+}
+function checkMatch(){
+    for (var g = 0; g < array.length; g++) {
+        for (var l  = 0; l < statements.length; l++) {
+            if (statements[g]["parties"][l]["position"] == choizes[l]) {
+
+            }else if(statements[0]["parties"][l]["position"] != choizes[l]){
+                
+            }else{
+                alert("ERROR GAAT WAS MIS!");
+            }
+        }   
+    }
 }
