@@ -8,11 +8,15 @@ var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
 var skip_button= document.createElement("button");
 var partyDiv2;
+var result_button;
+var match_array= [];
 var statement_count= 0; 
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
 var statements= subjects;
+var addnumber= (100 / statements.length);
+
 var continue_button= document.createElement("button");
 var partys= parties;
 var partyDiv; 
@@ -146,6 +150,7 @@ function clicked(clicked_element){
         continue_button.onclick= function(){selectParties();}; 
     }
 }
+alert(JSON.stringify(statements[0]["parties"][0]))
 function changeButtonColor(givenAnswer){
     if(givenAnswer == "pro"){
         document.getElementById("agree_button").classList.add("blue");
@@ -210,16 +215,22 @@ function selectParties(){
     filter.type = "checkbox";
     partyDiv.appendChild(filter);
     filter.onclick= function(){hide(partyDiv); filterNames();}; 
+    var spanfilter= document.createElement("span");
+    spanfilter.innerHTML= "Filter op seculaire partijen";
+    partyDiv.appendChild(spanfilter);
     for (var c = 0; c < parties.length; c++) {
         var party= document.createElement("span");
-        party.innerHTML= partys[c]["name"] + "<br>";
+        party.innerHTML= "<br>" + partys[c]["name"];
         partyDiv.appendChild(party);
     }
-    
+    result_button= document.createElement("button");
+    buttonStyling(result_button,"yellow");
+    result_button.innerHTML= "Naar mijn resultaat";
+    partyDiv.appendChild(result_button);
+    result_button.onclick= checkMatch;
 }
 
 function filterNames(){
-    alert("Dqwfw");
     partyDiv2= document.createElement("div");
     partyDiv2.setAttribute("class", 'partyDiv2');
     partyDiv2.style.display= "block";
@@ -227,27 +238,44 @@ function filterNames(){
     var filter2= document.createElement("input");
     filter2.type = "checkbox";
     partyDiv2.appendChild(filter2);
+    var spanfilter2= document.createElement("span");
+    spanfilter2.innerHTML= "Filter op alle partijen";
+    partyDiv2.appendChild(spanfilter2);
+
     for (var h = 0; h < partys.length; h++) {
         party2= document.createElement("span");
         if(partys[h]["secular"] == true){
-            party2.innerHTML= partys[h]["name"] + "<br>";
+            party2.innerHTML= "<br>" + partys[h]["name"];
             partyDiv2.appendChild(party2)
         }else{
 
         }
     }
-    filter2.onclick= function(){selectParties; hide(partyDiv2); show(partyDiv);}; 
+    filter2.onclick= function(){hide(partyDiv2); show(partyDiv); selectParties;}; 
+    partyDiv2.appendChild(result_button);
+    result_button.onclick= checkMatch;
 }
 function checkMatch(){
-    for (var g = 0; g < array.length; g++) {
-        for (var l  = 0; l < statements.length; l++) {
-            if (statements[g]["parties"][l]["position"] == choizes[l]) {
+    statement_title= "Uitslag partijen";
+    statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched";
 
+    for (var g = 0; g < statements.length; g++) {
+        for (var l  = 0; l < partys.length; l++) {
+            if (statements[g]["parties"][l]["position"] == choizes[l]) {
+                // match_array[g]= addnumber;
+                // addnumber= addnumber+addnumber;
+                alert("match!")
             }else if(statements[0]["parties"][l]["position"] != choizes[l]){
-                
+                // match_array[g]= (100 / statements.length);
+                alert("OOF!");
             }else{
                 alert("ERROR GAAT WAS MIS!");
             }
         }   
+        alert(statements[g]["parties"][l]["position"]);
+    }
+
+    for(var e= 0; e < match_array.length; e++){
+        statement_container.innerHTML= `Partij${e}` + check_results[e];
     }
 }
