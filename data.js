@@ -4,25 +4,29 @@ var parties = [{
     name: "VVD",
     secular: true,
     size: 33,
-    long: "Volkspartij voor Vrijheid en Democratie"
+    long: "Volkspartij voor Vrijheid en Democratie",
+    points: 0
   },
   {
     name: "CDA",
     secular: false,
     size: 19,
-    long: "Christen Democratisch Appel"
+    long: "Christen Democratisch Appel",
+    points: 0
   },
   {
     name: "PVV",
     secular: true,
     size: 20,
-    long: "Partij voor de Vrijheid"
+    long: "Partij voor de Vrijheid",
+    points: 0
   },
   {
     name: "D66",
     secular: true,
     size: 19,
-    long: "Democratie 66"
+    long: "Democratie 66",
+    points: 0
   },
   {
     name: "GroenLinks",
@@ -33,13 +37,15 @@ var parties = [{
     name: "SP",
     secular: true,
     size: 14,
-    long: "Socialistische Partij"
+    long: "Socialistische Partij",
+    points: 0
   },
   {
     name: "PvdA",
     secular: true,
     size: 9,
-    long: "Partij van de Arbeid"
+    long: "Partij van de Arbeid",
+    points: 0
   },
   {
     name: "ChristenUnie",
@@ -55,7 +61,8 @@ var parties = [{
     name: "SGP",
     secular: false,
     size: 33,
-    long: "Staatkundig Gerefomeerde Partij"
+    long: "Staatkundig Gerefomeerde Partij",
+    points: 0
   },
   {
     name: "DENK",
@@ -114,11 +121,6 @@ var parties = [{
   },
   {
     name: "Vrijzinnige Partij",
-    secular: true,
-    size: 0
-  },
-  {
-    name: "Libertarische Partij",
     secular: true,
     size: 0
   },

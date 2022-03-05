@@ -16,6 +16,7 @@ var statement_header= document.createElement("h2");
 var statement= document.createElement("h2");
 var statements= subjects;
 var addnumber= (100 / statements.length);
+var import_statements= [];
 
 var continue_button= document.createElement("button");
 var partys= parties;
@@ -255,27 +256,29 @@ function filterNames(){
     partyDiv2.appendChild(result_button);
     result_button.onclick= checkMatch;
 }
+
+var flesifjs= {"0": 12, }
 function checkMatch(){
+    
     statement_title= "Uitslag partijen";
     statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched";
-
     for (var g = 0; g < statements.length; g++) {
         for (var l  = 0; l < partys.length; l++) {
-            if (statements[g]["parties"][l]["position"] == choizes[l]) {
+            if(statements[g]["parties"][l]["position"] == choizes[g]) {
                 // match_array[g]= addnumber;
                 // addnumber= addnumber+addnumber;
-                alert("match!")
-            }else if(statements[0]["parties"][l]["position"] != choizes[l]){
+                console.log("match!");
+            }else if(statements[g]["parties"][l]["position"] != choizes[g]){
                 // match_array[g]= (100 / statements.length);
-                alert("OOF!");
+                console.log("OOF!");
             }else{
                 alert("ERROR GAAT WAS MIS!");
             }
-        }   
-        alert(statements[g]["parties"][l]["position"]);
+        }
     }
 
     for(var e= 0; e < match_array.length; e++){
         statement_container.innerHTML= `Partij${e}` + check_results[e];
     }
 }
+
