@@ -10,6 +10,7 @@ var skip_button= document.createElement("button");
 var partyDiv2;
 var result_button;
 var match_array= [];
+var output;
 var statement_count= 0; 
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
@@ -35,6 +36,7 @@ previous_button.onclick= function(){clicked("GoPrevious");};
 var question_counter= document.getElementById("question_counter");
 var check_results= [];
 var choizes= [];
+var final_result;
 
 function selected(selected_element){
     selected_element.style.backgroundColor = "blue";
@@ -143,6 +145,9 @@ function clicked(clicked_element){
             statement_title.setAttribute("class", 'float');
             statement_title.innerText= statements[q]["title"] + "\n";
             subjectsDiv.appendChild(statement_title);
+            checkbox.onclick= function(){  
+                alert(checkbox.id);
+                import_statements[checkbox.id]= statements[q]["title"]; alert();}; 
         }
 
         buttonStyling(continue_button, "blue");
@@ -215,7 +220,10 @@ function selectParties(){
     var filter= document.createElement("input");
     filter.type = "checkbox";
     partyDiv.appendChild(filter);
-    filter.onclick= function(){hide(partyDiv); filterNames();}; 
+    filter.onclick= function(){
+        hide(partyDiv);
+        filterNames();
+    }; 
     var spanfilter= document.createElement("span");
     spanfilter.innerHTML= "Filter op seculaire partijen";
     partyDiv.appendChild(spanfilter);
@@ -228,7 +236,10 @@ function selectParties(){
     buttonStyling(result_button,"yellow");
     result_button.innerHTML= "Naar mijn resultaat";
     partyDiv.appendChild(result_button);
-    result_button.onclick= checkMatch;
+    result_button.onclick= function(){    
+        output= false;
+        checkMatch(output);
+    };
 }
 
 function filterNames(){
@@ -254,31 +265,51 @@ function filterNames(){
     }
     filter2.onclick= function(){hide(partyDiv2); show(partyDiv); selectParties;}; 
     partyDiv2.appendChild(result_button);
-    result_button.onclick= checkMatch;
+    result_button.onclick= function(){
+        output = true;
+        checkMatch;
+    };
 }
 
 var flesifjs= {"0": 12, }
-function checkMatch(){
-    
+function checkMatch(a){
+    hide(partyDiv2);
+    partyDiv3= document.createElement("div");
+    partyDiv3.setAttribute("class", 'partyDiv3');
+    partyDiv3.style.display= "block";
+
     statement_title= "Uitslag partijen";
     statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched";
-    for (var g = 0; g < statements.length; g++) {
-        for (var l  = 0; l < partys.length; l++) {
-            if(statements[g]["parties"][l]["position"] == choizes[g]) {
-                // match_array[g]= addnumber;
-                // addnumber= addnumber+addnumber;
-                console.log("match!");
-            }else if(statements[g]["parties"][l]["position"] != choizes[g]){
-                // match_array[g]= (100 / statements.length);
-                console.log("OOF!");
-            }else{
-                alert("ERROR GAAT WAS MIS!");
+    //if (a == true) {
+        for (var g = 0; g < statements.length; g++) {
+            for (var l  = 0; l < partys.length; l++) {
+                if(statements[g]["parties"][l]["position"] == choizes[g]) {
+                    // match_array[g]= addnumber;
+                    // addnumber= addnumber+addnumber;
+                    partys[l]["points"]++;
+                    console.log("match!");
+                }else if(statements[g]["parties"][l]["position"] != choizes[g]){
+                    // match_array[g]= (100 / statements.length);
+                    console.log("OOF!");
+                }else{
+                    alert("ERROR GAAT WAS MIS!");
+                }
+                
             }
-        }
-    }
+    //     } 
+    // }    else{
 
-    for(var e= 0; e < match_array.length; e++){
-        statement_container.innerHTML= `Partij${e}` + check_results[e];
+    // }
+
+
+    final_result= partys.sort((a, b) => {
+        return b.points - a.points;
+    });
+
+    for (let a = 0; a < partys.length; a++) {
+        var pp= document.createElement("p");
+        pp.innerHTML= final_result[a]["name"];
+        partyDiv.appendChild(pp);
     }
 }
 
