@@ -8,8 +8,10 @@ var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
 var skip_button= document.createElement("button");
 var partyDiv2;
+var partyDiv3;
 var sec= false;
 var result_button;
+var result_button2;
 var match_array= [];
 var output;
 var stat_points= [];
@@ -227,15 +229,18 @@ function selectParties(){
     partyDiv= document.createElement("div");
     partyDiv.setAttribute("class", 'partyDiv')
     statement_container.appendChild(partyDiv);
+
+
+    //filter terug naar alle seculaire partijen
     var filter= document.createElement("input");
     filter.type = "checkbox";
     partyDiv.appendChild(filter);
     filter.onclick= function(){
         hide(partyDiv);
         filterNames();
-        sec= false;
-
     }; 
+
+
     var spanfilter= document.createElement("span");
     spanfilter.innerHTML= "Filter op seculaire partijen";
     partyDiv.appendChild(spanfilter);
@@ -249,6 +254,8 @@ function selectParties(){
     result_button.innerHTML= "Naar mijn resultaat";
     partyDiv.appendChild(result_button);
     result_button.onclick= function(){    
+        hide(partyDiv);
+        sec= false;
         //output= false;
         //output hoort daar als param
         checkMatch(sec);
@@ -261,6 +268,8 @@ function filterNames(){
     partyDiv2.setAttribute("class", 'partyDiv2');
     partyDiv2.style.display= "block";
     statement_container.appendChild(partyDiv2);
+
+    //filter terug naar alle partijen
     var filter2= document.createElement("input");
     filter2.type = "checkbox";
     partyDiv2.appendChild(filter2);
@@ -274,21 +283,24 @@ function filterNames(){
             party2.innerHTML= "<br>" + partys[h]["name"];
             partyDiv2.appendChild(party2)
         }else{
-
+            // ... 
         }
     }
     filter2.onclick= function(){hide(partyDiv2); show(partyDiv); selectParties;}; 
-    partyDiv2.appendChild(result_button);
-    result_button.onclick= function(){
-        sec= false;
+    result_button2= document.createElement("button");
+    buttonStyling(result_button2,"yellow");
+    result_button2.innerHTML= "Naar mijn resultaat";
+    partyDiv2.appendChild(result_button2);
+    result_button2.onclick= function(){ 
+        hide(partyDiv2);
+        sec= true;   
+        //output= false;
+        //output hoort daar als param
         checkMatch(sec);
     };
 }
 
-function checkMatch(sec){
-    hide(partyDiv);
-    hide(partyDiv2);
-    
+function checkMatch(sec){    
     partyDiv3= document.createElement("div");
     partyDiv3.setAttribute("class", 'partyDiv3');
     partyDiv3.style.display= "block";
@@ -298,6 +310,7 @@ function checkMatch(sec){
     
     // seculair partijen
     if (sec == true) {
+        alert("waar");
         for (var l  = 0; l < partys.length; l++) {
             if(partys[g]["secular"] == true){
                 for (var g = 0; g < statements.length; g++) { 
@@ -322,7 +335,8 @@ function checkMatch(sec){
             }
         } 
         //  niet seculair
-    }else{
+    }else if(sec == false){
+        alert("niet seculair");
         for (var g = 0; g < statements.length; g++) {
             for (var x  = 0; x < partys.length; x++) {
                 if(statements[g]["parties"][x]["position"] == choizes[g]) {
@@ -372,9 +386,9 @@ function checkMatch(sec){
             statement_container.appendChild(pp);
         }
     }
-    // else{
-    //     alert("IETS WERKT NIET 374");
-    // }   
+    else{
+        alert("IETS WERKT NIET 374");
+    }   
 }
 
 
