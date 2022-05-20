@@ -8,9 +8,14 @@ var disagree_button= document.createElement("button");
 var none_button= document.createElement("button");
 var skip_button= document.createElement("button");
 var partyDiv2;
+var sec= false;
 var result_button;
 var match_array= [];
 var output;
+var stat_points= [];
+var total_points= [];
+var points= [];
+var ans;
 var statement_count= 0; 
 var statement_headers= ["1", "2", "3"];
 var statement_header= document.createElement("h2");
@@ -18,7 +23,7 @@ var statement= document.createElement("h2");
 var statements= subjects;
 var addnumber= (100 / statements.length);
 var import_statements= [];
-
+var checkboxes= [];
 var continue_button= document.createElement("button");
 var partys= parties;
 var partyDiv; 
@@ -134,27 +139,31 @@ function clicked(clicked_element){
         clearButtons();
         statement_header.innerText= "Zijn er onderwerpen die u belangrijk vind?";
         statement.innerText= "Aangevinkte stellingen tellen extra mee bij het resultaat.";
+        hide(previous_button);
+
 
         for (var q = 0; q < statements.length; q++) {
             var checkbox= document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.setAttribute("id", 'checkbox' + q);
+            checkbox.setAttribute("id", q);
+            checkbox.onclick= function(){ 
+                //checkboxes[]
+                checkbox_clicked(this);
+                //import_statements[checkbox.id]= statements[q]["title"]; alert();
+            };
             subjectsDiv.appendChild(checkbox);
-
+            checkboxes.push(false);
             var statement_title= document.createElement("span");
             statement_title.setAttribute("class", 'float');
             statement_title.innerText= statements[q]["title"] + "\n";
-            subjectsDiv.appendChild(statement_title);
-            checkbox.onclick= function(){  
-                alert(checkbox.id);
-                import_statements[checkbox.id]= statements[q]["title"]; alert();}; 
+            subjectsDiv.appendChild(statement_title); 
         }
 
         buttonStyling(continue_button, "blue");
         continue_button.innerText= "Ga verder";
         statement_container.appendChild(continue_button);
         continue_button.onclick= function(){selectParties();}; 
-    }
+   }
 }
 alert(JSON.stringify(statements[0]["parties"][0]))
 function changeButtonColor(givenAnswer){
@@ -181,37 +190,38 @@ function setButtonColors(){
     none_button.classList.remove("blue");
 }
 
-function showResult(){
-    for (var t = 0; t < statements.length; t++) {
-        check_results.push(document.getElementById(`checkbox${t}`).checked);
-        alert(check_results);
-        if(check_results[t] == true){
-            alert("alert");
-            if(choizes[t] == "pro"){
-                alert("swsw");
-                choizes.push("pro");
-            }else if(choizes[t] == "disargeed"){
-                alert("213141");
-                choizes.push("contra");
-            }else if(choizes[t] == "none"){
-                alert("333");
-                choizes.push("none");
-            }
-        }
-        // loop bouwen choizes kijken of gegeven antwoord 
-        //overeenkomt met party opinion binnen if statement 
-        //ook kijken of het antwoord van die vraag of die aangevinkt was
-        // als dat geval is + 1 en anders +2
+// function showResult(){
+//     for (var t = 0; t < statements.length; t++) {
+//         check_results.push(document.getElementById(`checkbox${t}`).checked);
+//         alert(check_results);
+//         if(check_results[t] == true){
+//             alert("alert");
+//             if(choizes[t] == "pro"){
+//                 alert("swsw");
+//                 choizes.push("pro");
+//             }else if(choizes[t] == "disargeed"){
+//                 alert("213141");
+//                 choizes.push("contra");
+//             }else if(choizes[t] == "none"){
+//                 alert("333");
+//                 choizes.push("none");
+//             }
+//         }
+//         // loop bouwen choizes kijken of gegeven antwoord 
+//         //overeenkomt met party opinion binnen if statement 
+//         //ook kijken of het antwoord van die vraag of die aangevinkt was
+//         // als dat geval is + 1 en anders +2
 
-        // if(check_results == true){
+//         // if(check_results == true){
 
-        // }
-    }
-}
+//         // }
+//     }
+// }
 
 function selectParties(){
     hide(subjectsDiv);
     hide(continue_button);
+    // alle partijen
     statement_header.innerText= "Partijen selecteren";
     statement.innerText= "Alle partijen worden nu gebruikt.";
     partyDiv= document.createElement("div");
@@ -223,6 +233,8 @@ function selectParties(){
     filter.onclick= function(){
         hide(partyDiv);
         filterNames();
+        sec= false;
+
     }; 
     var spanfilter= document.createElement("span");
     spanfilter.innerHTML= "Filter op seculaire partijen";
@@ -237,12 +249,14 @@ function selectParties(){
     result_button.innerHTML= "Naar mijn resultaat";
     partyDiv.appendChild(result_button);
     result_button.onclick= function(){    
-        output= false;
-        checkMatch(output);
+        //output= false;
+        //output hoort daar als param
+        checkMatch(sec);
     };
 }
 
 function filterNames(){
+    // seculaire partijen
     partyDiv2= document.createElement("div");
     partyDiv2.setAttribute("class", 'partyDiv2');
     partyDiv2.style.display= "block";
@@ -266,50 +280,120 @@ function filterNames(){
     filter2.onclick= function(){hide(partyDiv2); show(partyDiv); selectParties;}; 
     partyDiv2.appendChild(result_button);
     result_button.onclick= function(){
-        output = true;
-        checkMatch;
+        sec= false;
+        checkMatch(sec);
     };
 }
 
-var flesifjs= {"0": 12, }
-function checkMatch(a){
+function checkMatch(sec){
+    hide(partyDiv);
     hide(partyDiv2);
+    
     partyDiv3= document.createElement("div");
     partyDiv3.setAttribute("class", 'partyDiv3');
     partyDiv3.style.display= "block";
-
+    
     statement_title= "Uitslag partijen";
     statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched";
-    //if (a == true) {
+    
+    // seculair partijen
+    if (sec == true) {
+        for (var l  = 0; l < partys.length; l++) {
+            if(partys[g]["secular"] == true){
+                for (var g = 0; g < statements.length; g++) { 
+                    if(statements[g]["parties"][l]["position"] == choizes[g]) {
+                        // match_array[g]= addnumber;
+                        // addnumber= addnumber+addnumber;
+                        if(checkboxes[g] == true){
+                            partys[l]["points"]+ 2; 
+                        }else if(checkboxes[g] == false){
+                            partys[l]["points"]++;
+                        }else{
+                            alert("WERKT NIET! regel 306");
+                        }
+                        console.log("match!");
+                    }else if(statements[g]["parties"][l]["position"] != choizes[g]){
+                        // match_array[g]= (100 / statements.length);
+                        console.log("OOF!");
+                    }else{
+                        alert("ERROR GAAT WAS MIS!");
+                    }
+                }
+            }
+        } 
+        //  niet seculair
+    }else{
         for (var g = 0; g < statements.length; g++) {
-            for (var l  = 0; l < partys.length; l++) {
-                if(statements[g]["parties"][l]["position"] == choizes[g]) {
+            for (var x  = 0; x < partys.length; x++) {
+                if(statements[g]["parties"][x]["position"] == choizes[g]) {
                     // match_array[g]= addnumber;
                     // addnumber= addnumber+addnumber;
-                    partys[l]["points"]++;
-                    console.log("match!");
-                }else if(statements[g]["parties"][l]["position"] != choizes[g]){
-                    // match_array[g]= (100 / statements.length);
-                    console.log("OOF!");
+                    if(checkboxes[g] == true){
+                        partys[x]["points"]+ 2; 
+                        alert("Yuh.1");
+                    }else if(checkboxes[g] == false){
+                        partys[x]["points"]++;
+                    }else{
+                        alert("WERKT NIET! regel 335");
+                    }
+
+                    stat_points.push(partys[x]["points"]);
+
+                    // }else if(statements[g]["parties"][x]["position"] != choizes[g]){
+                //     // match_array[g]= (100 / statements.length);
+                //     console.log("OOF!");
                 }else{
-                    alert("ERROR GAAT WAS MIS!");
+                    console.log("Geen match!");
                 }
-                
             }
-    //     } 
-    // }    else{
+            total_points.push(stat_points);
+            // stat_points zijn de punten die partijen per stelling(statements) hebben
 
-    // }
+        }
 
+        for(var iwi= 0; iwi < partys.length; iwi++){
+            for (var owo = 0; owo < partys.length; owo++) {
+                ans= total_points[owo][iwi] + total_points[owo][iwi]; 
+            }
+            points.push(ans);
+        }
+        console.log(points);
+        
+         // stat_points alle punten van partijen per statement
 
-    final_result= partys.sort((a, b) => {
-        return b.points - a.points;
-    });
+        final_result= points.sort(function(a, b){
+            return b - a;
+        });
 
-    for (let a = 0; a < partys.length; a++) {
-        var pp= document.createElement("p");
-        pp.innerHTML= final_result[a]["name"];
-        partyDiv.appendChild(pp);
+        for (let rip = 0; rip < partys.length; rip++) {
+            var pp= document.createElement("p");
+            pp.innerHTML= partys[rip]["name"] + " matchcijfer= " + final_result[rip];
+            //show(partyDiv);
+            statement_container.appendChild(pp);
+        }
     }
+    // else{
+    //     alert("IETS WERKT NIET 374");
+    // }   
 }
 
+
+
+
+function checkbox_clicked(elem){
+    console.log(elem.id);
+    if(checkboxes[elem.id] == false){
+        checkboxes[elem.id] = true;
+    }else if(checkboxes[elem.id] == true){
+        checkboxes[elem.id] = false;
+    }else{
+        alert("WERKT NIET regel 341");
+    }
+    
+    //checkboxes.push([`${elem.id}`, true]);
+    alert(checkboxes);
+}
+
+// gedaan je hebt de checkboxen, 
+// controleren, welke zijn aangevinkt
+// laat weten welke belangrijk is zodat je deze punten kan dubbelen

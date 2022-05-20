@@ -31,7 +31,8 @@ var parties = [{
   {
     name: "GroenLinks",
     secular: true,
-    size: 14
+    size: 14,
+    points: 0
   },
   {
     name: "SP",
@@ -50,12 +51,14 @@ var parties = [{
   {
     name: "ChristenUnie",
     secular: false,
-    size: 5
+    size: 5,
+    points: 0
   },
   {
     name: "Partij voor de Dieren",
     secular: true,
-    size: 33
+    size: 33,
+    points: 0
   },
   {
     name: "SGP",
@@ -67,67 +70,80 @@ var parties = [{
   {
     name: "DENK",
     secular: true,
-    size: 3
+    size: 3,
+    points: 0
   },
   {
     name: "Forum voor Democratie",
     secular: true,
-    size: 2
+    size: 2,
+    points: 0
   },
   {
     name: "Lokaal in de Kamer",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "OndernemersPartij",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "VNL",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "Nieuwe Wegen",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "De Burger Beweging",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "Piratenpartij",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "Artikel 1",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "Libertarische Partij",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "50Plus",
     secular: true,
-    size: 2
+    size: 2,
+    points: 0
   },
   {
     name: "Vrijzinnige Partij",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   },
   {
     name: "Niet Stemmers",
     secular: true,
-    size: 0
+    size: 0,
+    points: 0
   }
 
 ];
