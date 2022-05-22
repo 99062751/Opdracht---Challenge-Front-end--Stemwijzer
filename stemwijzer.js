@@ -32,6 +32,7 @@ var checkboxes= [];
 var continue_button= document.createElement("button");
 var partys= parties;
 var sec_partys= [];
+var size_partys= [];
 var partyDiv; 
 var progressbar= document.getElementById("progressbar");
 var progress_percentage= 0;
@@ -214,6 +215,14 @@ function selectParties(){
         filterNames();
     }; 
 
+    var filter4= document.createElement("input");
+    filter4.type = "checkbox";
+    partyDiv.appendChild(filter4);
+    filter4.onclick= function(){
+        hide(partyDiv);
+        filterBig();
+    }; 
+
 
     var spanfilter= document.createElement("span");
     spanfilter.innerHTML= "Filter op seculaire partijen";
@@ -268,6 +277,44 @@ function filterNames(){
     result_button2.onclick= function(){ 
         hide(partyDiv2);
         statuss= "sec";   
+        //output= false;
+        //output hoort daar als param
+        checkMatch(statuss);
+    };
+}
+
+function filterBig(){
+    // size partijen
+    partyDiv4= document.createElement("div");
+    partyDiv4.setAttribute("class", 'partyDiv4');
+    partyDiv4.style.display= "block";
+    statement_container.appendChild(partyDiv4);
+
+    //filter terug naar alle partijen
+    var filter3= document.createElement("input");
+    filter3.type = "checkbox";
+    partyDiv4.appendChild(filter3);
+    var spanfilter3= document.createElement("span");
+    spanfilter3.innerHTML= "Filter op alle partijen";
+    partyDiv4.appendChild(spanfilter3);
+
+    for (var h = 0; h < partys.length; h++) {
+        party2= document.createElement("span");
+        if(partys[h]["size"] >= size_int){
+            party2.innerHTML= "<br>" + partys[h]["name"];
+            partyDiv4.appendChild(party2)
+        }else{
+            // ... 
+        }
+    }
+    filter3.onclick= function(){hide(partyDiv4); show(partyDiv); selectParties;}; 
+    var result_button3= document.createElement("button");
+    buttonStyling(result_button3,"yellow");
+    result_button3.innerHTML= "Naar mijn resultaat";
+    partyDiv4.appendChild(result_button3);
+    result_button3.onclick= function(){ 
+        hide(partyDiv4);
+        statuss= "big";   
         //output= false;
         //output hoort daar als param
         checkMatch(statuss);
@@ -394,33 +441,34 @@ function checkMatch(statuss){
             statement_container.appendChild(pp);
         }
     }else if(statuss == "big"){
+        alert("big");
         for (var aapje2 =0; aapje2 < parties.length; aapje2++) {
             if (parties[aapje2]["size"] >= size_int) {
-                sec_partys.push(parties[aapje2]);
+                size_partys.push(parties[aapje2]);
             }else{
                 //. . .
             }
         }
 
         for (var acca = 0; acca < statements.length; acca++) {
-            for (var xacc  = 0; xacc < partys.length; xacc++) {
+            for (var xacc  = 0; xacc < size_partys.length; xacc++) {
                 if(statements[acca]["parties"][xacc]["position"] == choizes[acca]) {
                     if(checkboxes[acca] == true){
-                        partys[xacc]["points"]+ 2; 
+                        size_partys[xacc]["points"]+ 2; 
 
                     }else if(checkboxes[acca] == false){
-                        partys[xacc]["points"]++;
+                        size_partys[xacc]["points"]++;
 
                     }else{
                         alert("WERKT NIET! regel 335");
                     }
-                    stat_points.push(partys[xacc]);
+                    stat_points.push(size_partys[xacc]);
                     // }else if(statements[acca]["parties"][xacc]["position"] != choizes[acca]){
                 //     // match_array[acca]= (100 / statements.length);
                 //     console.log("OOF!");
                 }else{
                     console.log("Geen match!");
-                    stat_points.push(partys[xacc]);
+                    stat_points.push(size_partys[xacc]);
                 }
             }
             total_points.push(stat_points);
@@ -430,8 +478,8 @@ function checkMatch(statuss){
 
         // array met punten: volgorde match van die user
         // partijen array: volgorde 
-        for(var iwi= 0; iwi < partys.length; iwi++){
-            for (var owo = 0; owo < partys.length; owo++) {
+        for(var iwi= 0; iwi < size_partys.length; iwi++){
+            for (var owo = 0; owo < size_partys.length; owo++) {
                 name_party= total_points[owo][iwi]["name"];
                 ans= total_points[owo][iwi]["points"] + total_points[owo][iwi]["points"]; 
                 points[iwi] = {"points": ans, "name": name_party};
@@ -447,7 +495,7 @@ function checkMatch(statuss){
 
         });
 
-         for(var rip = 0; rip < partys.length; rip++) {
+         for(var rip = 0; rip < size_partys.length; rip++) {
             var pp= document.createElement("p");
             pp.innerHTML= final_result[0][rip]["points"] + " matchcijfer= " + final_result[0][rip]["name"];
             statement_container.appendChild(pp);
