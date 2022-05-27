@@ -200,7 +200,7 @@ function selectParties(){
     hide(continue_button);
     // alle partijen
     statement_header.innerText= "Partijen selecteren";
-    statement.innerText= "Alle partijen worden nu gebruikt.";
+    statement.innerText= "Alle partijen worden nu gebruikt." + "<br>";
     partyDiv= document.createElement("div");
     partyDiv.setAttribute("class", 'partyDiv')
     statement_container.appendChild(partyDiv);
@@ -239,7 +239,6 @@ function selectParties(){
     result_button.onclick= function(){    
         hide(partyDiv);
         sec= false;
-        //output= false;
         //output hoort daar als param
         checkMatch(sec);
     };
@@ -251,6 +250,8 @@ function filterNames(){
     partyDiv2.setAttribute("class", 'partyDiv2');
     partyDiv2.style.display= "block";
     statement_container.appendChild(partyDiv2);
+    statement.innerText= "Alle secundaire partijen worden nu gebruikt." + "<br>";
+
 
     //filter terug naar alle partijen
     var filter2= document.createElement("input");
@@ -289,6 +290,7 @@ function filterBig(){
     partyDiv4.setAttribute("class", 'partyDiv4');
     partyDiv4.style.display= "block";
     statement_container.appendChild(partyDiv4);
+    statement.innerText= "Alle grootste partijen worden nu gebruikt." + "<br>";
 
     //filter terug naar alle partijen
     var filter3= document.createElement("input");
@@ -327,13 +329,13 @@ function checkMatch(statuss){
     partyDiv3.style.display= "block";
     
     statement_title= "Uitslag partijen";
-    statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched";
+    statement_header.innerHTML= "Dit zijn de uitslagen van de partijen hoeveel je op ze matched" + "<br>";
     // naam ervan ook pushen
 
 
     // seculair partijen
     if (statuss == "sec") {
-        alert("waar");
+
         for (var aapje =0; aapje < parties.length; aapje++) {
             if (parties[aapje]["secular"] == true) {
                 sec_partys.push(parties[aapje]);
@@ -352,7 +354,7 @@ function checkMatch(statuss){
                         sec_partys[x]["points"]++;
 
                     }else{
-                        alert("WERKT NIET! regel 335");
+
                     }
                     stat_points.push(sec_partys[x]);
                 }else{
@@ -400,12 +402,9 @@ function checkMatch(statuss){
                         partys[x]["points"]++;
 
                     }else{
-                        alert("WERKT NIET! regel 335");
+
                     }
                     stat_points.push(partys[x]);
-                    // }else if(statements[g]["parties"][x]["position"] != choizes[g]){
-                //     // match_array[g]= (100 / statements.length);
-                //     console.log("OOF!");
                 }else{
                     console.log("Geen match!");
                     stat_points.push(partys[x]);
@@ -414,7 +413,7 @@ function checkMatch(statuss){
             total_points.push(stat_points);
             // stat_points zijn de punten die partijen per stelling(statements) hebben
         }
-        alert(JSON.stringify(stat_points));
+
 
         // array met punten: volgorde match van die user
         // partijen array: volgorde 
@@ -428,25 +427,22 @@ function checkMatch(statuss){
         match_data.push(points);
         
         // sort functie doet het niet helemaal kijk ernaarrrrrr
-         final_result= match_data.sort(function(a, b) {
-            if(b.points - a.points == 0 || b.points - a.points >= 0 || b.points - a.points < 0){
-                return b.points - a.points;
-            }
-
+        final_result= match_data[0].sort(function(a, b) {
+                return a.points < b.points;
         });
-
+        console.log(match_data);
          for(var rip = 0; rip < partys.length; rip++) {
             var pp= document.createElement("p");
-            pp.innerHTML= final_result[0][rip]["points"] + " matchcijfer= " + final_result[0][rip]["name"];
+            pp.innerHTML= final_result[rip]["points"] + " matchcijfer= " + final_result[rip]["name"];
             statement_container.appendChild(pp);
         }
     }else if(statuss == "big"){
-        alert("big");
+
         for (var aapje2 =0; aapje2 < parties.length; aapje2++) {
             if (parties[aapje2]["size"] >= size_int) {
                 size_partys.push(parties[aapje2]);
             }else{
-                //. . .
+                console.log("Werkt niet");
             }
         }
 
@@ -460,12 +456,9 @@ function checkMatch(statuss){
                         size_partys[xacc]["points"]++;
 
                     }else{
-                        alert("WERKT NIET! regel 335");
+                        console.log("Werkt niet");
                     }
                     stat_points.push(size_partys[xacc]);
-                    // }else if(statements[acca]["parties"][xacc]["position"] != choizes[acca]){
-                //     // match_array[acca]= (100 / statements.length);
-                //     console.log("OOF!");
                 }else{
                     console.log("Geen match!");
                     stat_points.push(size_partys[xacc]);
@@ -474,7 +467,6 @@ function checkMatch(statuss){
             total_points.push(stat_points);
             // stat_points zijn de punten die partijen per stelling(statements) hebben
         }
-        alert(JSON.stringify(stat_points));
 
         // array met punten: volgorde match van die user
         // partijen array: volgorde 
@@ -501,7 +493,7 @@ function checkMatch(statuss){
             statement_container.appendChild(pp);
         }
     }else{
-        alert("IETS WERKT NIET 374");
+        console.log("Werkt niet");
     }   
 }
 
@@ -515,12 +507,6 @@ function checkbox_clicked(elem){
     }else if(checkboxes[elem.id] == true){
         checkboxes[elem.id] = false;
     }else{
-        alert("WERKT NIET regel 341");
-    }
-    
-    //checkboxes.push([`${elem.id}`, true]);
-}
 
-// gedaan je hebt de checkboxen, 
-// controleren, welke zijn aangevinkt
-// laat weten welke belangrijk is zodat je deze punten kan dubbelen
+    }
+}
